@@ -25,19 +25,19 @@ Shorten long URLs, get analytics, and manage your links through a clean dashboar
 
 ## Key Features
 
-- 🔗 **Instant URL Shortening**  
+- **Instant URL Shortening**  
   Cleanly shorten long and messy URLs to compact links.
 
-- 📊 **Analytics Dashboard**  
+- **Analytics Dashboard**  
   Track clicks, device types, timestamps, and more for each shortened URL.
 
-- 🔐 **User Auth with Supabase**  
+- **User Auth with Supabase**  
   Only authenticated users can create, view, and manage their links.
 
-- 🧾 **Link Management System**  
+- **Link Management System**  
   Edit or delete your links from a personalized dashboard.
 
-- 📱 **Responsive Design**  
+- **Responsive Design**  
   Fully functional across mobile, tablet, and desktop.
 
 
