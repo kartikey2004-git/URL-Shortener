@@ -60,9 +60,9 @@ export function SignUpForm() {
 
   return (
     <Card>
-      <form onSubmit={handleSubmit} noValidate>
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
         <CardHeader>
-          <CardTitle className="text-xl font-black">Create account</CardTitle>
+          <CardTitle className="text-heading-20">Create account</CardTitle>
           <CardDescription>Start shortening your links in seconds.</CardDescription>
         </CardHeader>
 
@@ -119,7 +119,7 @@ export function SignUpForm() {
         </CardContent>
 
         <CardFooter className="pb-6">
-          <Button type="submit" className="w-full font-bold" loading={loading}>
+          <Button type="submit" className="w-full" loading={loading}>
             Sign Up
           </Button>
         </CardFooter>

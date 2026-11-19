@@ -44,7 +44,7 @@ const RedirectPage = () => {
   return (
     <>
       <PageProgress />
-      <p className="pt-8 text-center text-muted-foreground">Redirecting...</p>
+      <p className="pt-8 text-center body-text">Redirecting...</p>
     </>
   );
 };

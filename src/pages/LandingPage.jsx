@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { ArrowRight, BarChart3, LinkIcon, QrCode, Zap } from "lucide-react";
 
 import {
@@ -8,9 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { IconInput } from "@/components/shared/IconInput";
 import { APP_NAME } from "@/lib/constants";
 import { routes, withPendingUrl } from "@/lib/routes";
@@ -60,26 +59,23 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col items-center">
-      <section className="flex w-full flex-col items-center pb-20 pt-8 text-center lg:pb-32 lg:pt-16">
-        <Badge variant="secondary" className="mb-6 px-3 py-1 font-medium">
-          <Zap className="mr-1.5 h-3 w-3 fill-primary text-primary" />
-          The fastest way to share links
-        </Badge>
-
-        <h1 className="mb-6 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl">
-          Shorten. Share. <span className="text-primary">Track.</span>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.05 }}
+      className="flex flex-col"
+    >
+      <section className="space-y-5 pb-12 sm:pb-14">
+        <h1 className="text-2xl font-medium tracking-tight sm:text-3xl">
+          Shorten. Share. Track.
         </h1>
 
-        <p className="mb-12 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-          Transform long, complex URLs into powerful short links and QR codes.
-          Gain deep insights with real-time analytics.
+        <p className="max-w-xl body-text text-foreground">
+          Transform long, complex URLs into powerful short links and QR codes. Gain deep insights
+          with real-time analytics.
         </p>
 
-        <form
-          onSubmit={handleShorten}
-          className="flex w-full max-w-2xl flex-col gap-2 rounded-xl border bg-background p-1.5 shadow-sm sm:flex-row"
-        >
+        <form onSubmit={handleShorten} className="flex w-full flex-col gap-2 pt-3 sm:flex-row">
           <div className="flex-1">
             <IconInput
               icon={LinkIcon}
@@ -88,65 +84,52 @@ const LandingPage = () => {
               aria-label="Long URL to shorten"
               placeholder="Paste your long link here..."
               onChange={(event) => setLongUrl(event.target.value)}
-              className="h-12 text-base"
+              className="h-10"
               required
             />
           </div>
-          <Button type="submit" size="lg" className="font-semibold">
+          <Button type="submit" size="lg">
             Shorten Now
             <ArrowRight />
           </Button>
         </form>
       </section>
 
-      <section className="w-full py-12">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <section className="border-t border-border/60 py-10 sm:py-14">
+        <p className="eyebrow mb-6">Features</p>
+        <div className="divide-y divide-border/60">
           {FEATURES.map(({ icon: Icon, title, description }) => (
-            <Card key={title} className="bg-card/50">
-              <CardContent className="flex flex-col items-start gap-4 p-8">
-                <div className="rounded-lg border border-primary/10 bg-primary/5 p-2.5 text-primary">
-                  <Icon aria-hidden="true" className="h-6 w-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold tracking-tight">{title}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {description}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div key={title} className="flex items-start gap-4 py-6 first:pt-0 last:pb-0">
+              <Icon aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+              <div className="min-w-0">
+                <h3 className="font-sans text-lg font-[450] text-foreground sm:text-xl">{title}</h3>
+                <p className="mt-2 max-w-xl body-text">{description}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="w-full max-w-3xl pt-24">
-        <div className="mb-12 text-center">
-          <h2 className="mb-3 text-2xl font-bold tracking-tight sm:text-3xl">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Everything you need to know about {APP_NAME}
-          </p>
-        </div>
+      <section className="border-t border-border/60 py-10 sm:py-14">
+        <p className="eyebrow mb-2">FAQ</p>
+        <h2 className="heading-lg mb-6">Frequently asked questions</h2>
 
-        <Accordion type="single" collapsible className="w-full space-y-3">
+        <Accordion type="single" collapsible className="w-full">
           {FAQS.map(({ question, answer }, index) => (
             <AccordionItem
               key={question}
               value={`faq-${index}`}
-              className="rounded-lg border bg-card px-2 transition-colors duration-base data-[state=open]:border-primary/20"
+              className="border-b border-border/60 last:border-b-0"
             >
-              <AccordionTrigger className="px-3 py-4 text-left text-base font-semibold hover:no-underline">
+              <AccordionTrigger className="py-4 text-left text-copy-16 font-[450] hover:no-underline">
                 {question}
               </AccordionTrigger>
-              <AccordionContent className="px-3 pb-4 text-sm text-muted-foreground">
-                {answer}
-              </AccordionContent>
+              <AccordionContent className="body-text">{answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
       </section>
-    </div>
+    </motion.div>
   );
 };
 

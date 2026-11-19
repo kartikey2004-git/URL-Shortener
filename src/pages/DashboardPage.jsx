@@ -41,13 +41,13 @@ const DashboardPage = () => {
   const clickCount = linkCount > 0 ? (clicks?.length ?? 0) : 0;
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       {(loadingLinks || loadingClicks) && <PageProgress />}
 
       <PageHeader
         title="Dashboard"
         description={
-          <p className="text-sm text-muted-foreground">
+          <p className="body-text">
             Manage and track your shortened URLs effectively.
           </p>
         }
@@ -59,9 +59,9 @@ const DashboardPage = () => {
         <StatCard label="Total Clicks" value={clickCount} icon={MousePointer2} />
       </div>
 
-      <section className="space-y-4 pt-4">
+      <section className="space-y-6 border-t border-border/60 pt-8">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-          <h2 className="heading-section">Active Links</h2>
+          <h2 className="heading-sm">Active Links</h2>
 
           <div className="w-full sm:w-72">
             <IconInput
@@ -77,7 +77,7 @@ const DashboardPage = () => {
 
         {error && <Alert variant="destructive">{error.message}</Alert>}
 
-        <div className="grid grid-cols-1 gap-3">
+        <div className="flex flex-col">
           {links && visibleLinks.length === 0 ? (
             <EmptyState
               icon={Search}

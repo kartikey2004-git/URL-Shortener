@@ -15,7 +15,7 @@ const MAX_CITIES = 5;
 const CITY_LABEL_MAX_LENGTH = 15;
 const CITY_LABEL_TRUNCATED_LENGTH = 12;
 
-const AXIS_TICK = { fill: "hsl(var(--muted-foreground))", fontSize: 12 };
+const AXIS_TICK = { fill: "var(--muted-foreground)", fontSize: 12 };
 
 function countByCity(clicks) {
   const counts = {};
@@ -45,25 +45,25 @@ export function LocationStats({ clicks }) {
           <YAxis tick={AXIS_TICK} />
           <Tooltip
             contentStyle={{
-              backgroundColor: "hsl(var(--popover))",
-              border: "1px solid hsl(var(--border))",
+              backgroundColor: "var(--popover)",
+              border: "1px solid var(--border)",
               borderRadius: "var(--radius)",
-              color: "hsl(var(--popover-foreground))",
+              color: "var(--popover-foreground)",
             }}
-            labelStyle={{ color: "hsl(var(--popover-foreground))" }}
-            itemStyle={{ color: "hsl(var(--primary))" }}
+            labelStyle={{ color: "var(--popover-foreground)" }}
+            itemStyle={{ color: "var(--primary)" }}
           />
           <Legend
             verticalAlign="top"
             height={36}
-            wrapperStyle={{ color: "hsl(var(--muted-foreground))", fontSize: "0.875rem" }}
+            wrapperStyle={{ color: "var(--muted-foreground)", fontSize: "0.875rem" }}
           />
           <Line
             type="monotone"
             dataKey="count"
-            stroke="hsl(var(--primary))"
+            stroke="var(--primary)"
             strokeWidth={2}
-            activeDot={{ r: 6, fill: "hsl(var(--primary))" }}
+            activeDot={{ r: 6, fill: "var(--primary)" }}
           />
         </LineChart>
       </ResponsiveContainer>

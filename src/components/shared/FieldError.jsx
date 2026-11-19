@@ -4,7 +4,7 @@ export function FieldError({ id, children }) {
   if (!children) return null;
 
   return (
-    <p id={id} role="alert" className="text-2xs font-bold uppercase tracking-tight text-destructive">
+    <p id={id} role="alert" className="text-copy-13 text-destructive">
       {children}
     </p>
   );

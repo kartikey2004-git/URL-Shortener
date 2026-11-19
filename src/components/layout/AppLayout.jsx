@@ -5,21 +5,21 @@ import { PageProgress } from "@/components/shared/PageProgress";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
-
 export function AppLayout() {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <Header />
-
-      <main className="w-full flex-1">
-        <div className="mx-auto max-w-6xl px-4 pb-32 pt-8 sm:px-6 lg:px-8">
-          <Suspense fallback={<PageProgress />}>
-            <Outlet />
-          </Suspense>
+    <>
+      {/* Gutter lives on a wrapper, not <body>: Radix scroll-lock overwrites body padding when a dialog opens. */}
+      <div className="px-3">
+        <Header />
+        <div className="mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-3xl flex-col overflow-x-hidden">
+          <main className="page-shell flex-1">
+            <Suspense fallback={<PageProgress />}>
+              <Outlet />
+            </Suspense>
+          </main>
+          <Footer />
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </>
   );
 }

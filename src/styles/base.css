@@ -1,29 +1,60 @@
-/* Global element defaults and the few shared typographic classes. */
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
-
+  html,
   body {
-    @apply bg-background font-sans text-foreground antialiased;
+    min-height: 100%;
   }
-}
-
-/*
- * Typographic roles used across pages. Defined once here so headings and
- * captions cannot drift apart between screens.
- */
-@layer components {
-  .heading-page {
-    @apply text-3xl font-black tracking-tight;
+  body {
+    @apply bg-background text-foreground overflow-x-hidden font-sans text-sm font-normal leading-6 antialiased sm:text-base;
   }
-
-  .heading-section {
-    @apply text-xl font-bold tracking-tight;
+  html {
+    scroll-behavior: smooth;
   }
-
-  /* Small uppercase caption: form labels, stat titles, QR preview caption. */
-  .eyebrow {
-    @apply text-2xs font-bold uppercase tracking-wider text-muted-foreground;
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-sans tracking-[-0.025em] text-foreground;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 450;
+    line-height: 1.1;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 450;
+    line-height: 1.15;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 450;
+    line-height: 1.2;
+  }
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 3rem;
+      line-height: 3.5rem;
+      letter-spacing: -0.06em;
+    }
+    h2 {
+      font-size: 2rem;
+      line-height: 2.5rem;
+      letter-spacing: -0.04em;
+    }
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  ::selection {
+    @apply bg-foreground text-background;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
   }
 }

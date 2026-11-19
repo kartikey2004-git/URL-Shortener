@@ -1,24 +1,30 @@
 import PropTypes from "prop-types";
 
-import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-
-export function EmptyState({ icon: Icon, title, description }) {
+export function EmptyState({ icon: Icon, title, description, action, className }) {
   return (
-    <Card className="flex flex-col items-center gap-4 border-dashed bg-muted/10 p-16 text-center">
-      <div className="rounded-full bg-muted p-3">
-        <Icon aria-hidden="true" className="h-5 w-5 text-muted-foreground" />
-      </div>
+    <div
+      data-slot="empty-state"
+      className={cn(
+        "flex flex-col items-center justify-center gap-3 rounded-md border border-dashed border-border/60 px-6 py-12 text-center",
+        className
+      )}
+    >
+      {Icon ? <Icon className="size-8 text-muted-foreground/30" aria-hidden="true" /> : null}
       <div className="space-y-1">
-        <h3 className="text-base font-bold">{title}</h3>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="text-sm font-medium text-foreground">{title}</p>
+        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
       </div>
-    </Card>
+      {action ? <div className="mt-1">{action}</div> : null}
+    </div>
   );
 }
 
 EmptyState.propTypes = {
-  icon: PropTypes.elementType.isRequired,
+  icon: PropTypes.elementType,
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  action: PropTypes.node,
+  className: PropTypes.string,
 };

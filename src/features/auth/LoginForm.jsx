@@ -52,9 +52,9 @@ export function LoginForm() {
 
   return (
     <Card>
-      <form onSubmit={handleSubmit} noValidate>
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
         <CardHeader>
-          <CardTitle className="text-xl font-black">Login</CardTitle>
+          <CardTitle className="text-heading-20">Login</CardTitle>
           <CardDescription>
             Enter your credentials to access your account.
           </CardDescription>
@@ -89,7 +89,7 @@ export function LoginForm() {
         </CardContent>
 
         <CardFooter className="pb-6">
-          <Button type="submit" className="w-full font-bold" loading={loading}>
+          <Button type="submit" className="w-full" loading={loading}>
             Sign In
           </Button>
         </CardFooter>

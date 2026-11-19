@@ -87,14 +87,14 @@ export function CreateLinkDialog() {
   return (
     <Dialog defaultOpen={Boolean(pendingUrl)} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button className="px-5 font-semibold">
+        <Button className="">
           <Plus />
           Create Link
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} noValidate className="grid gap-6">
           <DialogHeader>
             <DialogTitle>New short link</DialogTitle>
             <DialogDescription>
@@ -105,7 +105,7 @@ export function CreateLinkDialog() {
           <DialogBody>
             {formValues.longUrl && (
               <div className="flex flex-col items-center gap-2">
-                <div className="rounded-lg border bg-background p-3 shadow-sm">
+                <div className="rounded-md border border-border bg-background p-3">
                   <Suspense
                     fallback={
                       <div
@@ -146,7 +146,7 @@ export function CreateLinkDialog() {
               <div className="space-y-1.5">
                 <Label htmlFor="customUrl">Custom Backhalf</Label>
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 items-center whitespace-nowrap rounded-md border bg-muted px-3 text-xs font-bold text-muted-foreground">
+                  <div className="flex h-9 items-center whitespace-nowrap rounded-md border border-border bg-muted px-3 text-copy-13-mono text-muted-foreground">
                     <Globe aria-hidden="true" className="mr-2 h-3 w-3" />
                     {window.location.hostname}/
                   </div>
@@ -166,7 +166,7 @@ export function CreateLinkDialog() {
           </DialogBody>
 
           <DialogFooter>
-            <Button type="submit" className="h-11 w-full font-semibold" loading={loading}>
+            <Button type="submit" className="w-full" loading={loading}>
               Create Link
             </Button>
           </DialogFooter>

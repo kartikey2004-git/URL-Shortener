@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Calendar, Copy, Download, ExternalLink, Trash } from "lucide-react";
+import { Copy, Download, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { FieldError } from "@/components/shared/FieldError";
 import { useFetch } from "@/hooks/use-fetch";
 import { routes } from "@/lib/routes";
@@ -11,10 +10,9 @@ import { deleteUrl } from "./api";
 import { linkShape } from "./LinkPropTypes";
 import { copyToClipboard, downloadQrCode, formatDate, getShortUrl } from "./utils";
 
-/** One row of the dashboard list: QR preview, link details and quick actions. */
+/** One row of the dashboard list: title, short URL, destination and quick actions. */
 export function LinkCard({ link, onDeleted }) {
   const { loading: deleting, error: deleteError, run: runDelete } = useFetch(deleteUrl);
-
   const { error: downloadError, run: runDownload } = useFetch(downloadQrCode);
 
   const shortUrl = getShortUrl(link);
@@ -26,81 +24,81 @@ export function LinkCard({ link, onDeleted }) {
   };
 
   return (
-    <Card className="bg-card/50 transition-colors duration-base hover:bg-muted/10">
-      <div className="flex flex-col gap-6 p-5 sm:flex-row">
+    <article className="group border-b border-border/60 py-8 first:pt-0 last:border-b-0 sm:py-10">
+      <div className="flex gap-5">
         <Link
           to={detailsPath}
           aria-label={`View ${link.title || "link"} details`}
-          className="block shrink-0 self-start rounded-lg border bg-background p-2"
+          className="hidden size-24 shrink-0 self-start overflow-hidden rounded-md border border-border/70 bg-background p-1.5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 sm:block"
         >
-          <img src={link.qr} alt="QR code" className="h-24 w-24 object-contain" />
+          <img src={link.qr} alt="QR code" className="size-full object-contain" />
         </Link>
 
-        <div className="min-w-0 flex-grow space-y-2.5">
-          <div className="space-y-1">
-            <Link to={detailsPath} className="inline-block max-w-full">
-              <h3 className="truncate text-lg font-bold tracking-tight transition-colors duration-base hover:text-primary/80">
-                {link.title || "Untitled Link"}
-              </h3>
-            </Link>
-            <a
-              href={shortUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="block truncate text-sm font-bold text-primary hover:underline"
+        <div className="flex min-w-0 flex-1 flex-col">
+          <h3 className="truncate font-sans text-lg font-[450] text-foreground sm:text-xl">
+            <Link
+              to={detailsPath}
+              className="transition-opacity duration-300 hover:opacity-65 focus-visible:underline focus-visible:outline-none"
             >
-              {shortUrl}
-            </a>
-          </div>
+              {link.title || "Untitled Link"}
+            </Link>
+          </h3>
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <ExternalLink aria-hidden="true" className="h-3 w-3 shrink-0" />
-            <span className="truncate">{link.original_url}</span>
-          </div>
+          <a
+            href={shortUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 truncate text-copy-14-mono text-foreground transition-opacity duration-300 hover:opacity-65"
+          >
+            {shortUrl}
+          </a>
 
-          <div className="eyebrow flex items-center gap-2">
-            <Calendar aria-hidden="true" className="h-3 w-3" />
-            {formatDate(link.created_at)}
+          <p className="mt-1 truncate body-text">{link.original_url}</p>
+
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <span className="eyebrow">{formatDate(link.created_at)}</span>
+
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                title="Copy Link"
+                aria-label="Copy link"
+                className="text-muted-foreground hover:text-foreground"
+                onClick={() => copyToClipboard(shortUrl)}
+              >
+                <Copy />
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                title="Download QR"
+                aria-label="Download QR code"
+                className="text-muted-foreground hover:text-foreground"
+                onClick={() => runDownload(link)}
+              >
+                <Download />
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                title="Delete Link"
+                aria-label="Delete link"
+                className="text-muted-foreground hover:text-destructive"
+                onClick={handleDelete}
+                loading={deleting}
+              >
+                {!deleting && <Trash />}
+              </Button>
+            </div>
           </div>
 
           <FieldError>{deleteError?.message ?? downloadError?.message}</FieldError>
         </div>
-
-        <div className="flex items-center justify-end gap-2 sm:flex-col sm:border-l sm:pl-6">
-          <Button
-            variant="outline"
-            size="icon-sm"
-            title="Copy Link"
-            aria-label="Copy link"
-            onClick={() => copyToClipboard(shortUrl)}
-          >
-            <Copy />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon-sm"
-            title="Download QR"
-            aria-label="Download QR code"
-            onClick={() => runDownload(link)}
-          >
-            <Download />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon-sm"
-            title="Delete Link"
-            aria-label="Delete link"
-            className="hover:bg-destructive/10 hover:text-destructive"
-            onClick={handleDelete}
-            loading={deleting}
-          >
-            {!deleting && <Trash />}
-          </Button>
-        </div>
       </div>
-    </Card>
+    </article>
   );
 }
 

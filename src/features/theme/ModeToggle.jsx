@@ -1,40 +1,37 @@
-import { Moon, Sun } from "lucide-react";
-import {
-  useModeAnimation,
-  ThemeAnimationType,
-} from "react-theme-switch-animation";
+import { useEffect, useState } from "react";
+import { BsMoon, BsSun } from "react-icons/bs";
+import { useTheme } from "next-themes";
+import { ThemeAnimationType, useModeAnimation } from "react-theme-switch-animation";
 
 import { Button } from "@/components/ui/button";
-import { useTheme } from "./theme-context";
 
-const ANIMATION_DURATION_MS = 750;
-const ANIMATION_BLUR_PX = 3;
-
-/** Light/dark switch that reveals the new theme with a blurred circular wipe. */
+/** Light/dark switch that reveals the new theme with a circular wipe. */
 export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
 
   const { ref, toggleSwitchTheme } = useModeAnimation({
-    isDarkMode: theme === "dark",
+    animationType: ThemeAnimationType.CIRCLE,
+    duration: 650,
+    isDarkMode: resolvedTheme === "dark",
     onDarkModeChange: (isDark) => setTheme(isDark ? "dark" : "light"),
-    animationType: ThemeAnimationType.BLUR_CIRCLE,
-    duration: ANIMATION_DURATION_MS,
-    blurAmount: ANIMATION_BLUR_PX,
-    globalClassName: "dark",
-    pseudoElement: "::view-transition-new(root)",
   });
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
 
   return (
     <Button
       ref={ref}
-      variant="ghost"
-      size="icon"
+      type="button"
       onClick={toggleSwitchTheme}
-      className="border border-border"
+      variant="ghost"
+      size="icon-sm"
+      aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+      className="text-muted-foreground hover:bg-accent hover:text-foreground"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-transform duration-base dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-transform duration-base dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
+      {resolvedTheme === "dark" ? <BsSun className="size-3.5" /> : <BsMoon className="size-3.5" />}
     </Button>
   );
 }

@@ -66,13 +66,13 @@ const LinkDetailsPage = () => {
   const shortUrl = link ? getShortUrl(link) : "";
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-10">
       {(loadingLink || loadingClicks) && <PageProgress />}
 
       <PageHeader
         title={link?.title || "Loading..."}
         description={
-          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+          <div className="flex items-center gap-2 body-text">
             <Calendar aria-hidden="true" className="h-4 w-4" />
             Created {link?.created_at ? formatDate(link.created_at) : "..."}
           </div>
@@ -91,21 +91,21 @@ const LinkDetailsPage = () => {
         }
       />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <Card className="sm:col-span-2">
           <CardHeader>
             <CardTitle>Link Details</CardTitle>
             <CardDescription>Direct access and redirection information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
+            <div className="space-y-2 rounded-md border border-border/70 p-4">
               <p className="eyebrow">Short URL</p>
               <div className="flex items-center justify-between gap-4">
                 <a
                   href={shortUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="truncate text-lg font-bold text-primary hover:underline"
+                  className="truncate text-copy-14-mono text-foreground transition-opacity duration-300 hover:opacity-65"
                 >
                   {shortUrl}
                 </a>
@@ -121,14 +121,14 @@ const LinkDetailsPage = () => {
               </div>
             </div>
 
-            <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
+            <div className="space-y-2 rounded-md border border-border/70 p-4">
               <p className="eyebrow">Destination URL</p>
               <div className="flex items-center justify-between gap-4">
                 <a
                   href={link?.original_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="truncate text-sm text-muted-foreground transition-colors duration-base hover:text-foreground"
+                  className="truncate text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
                 >
                   {link?.original_url}
                 </a>
@@ -147,12 +147,12 @@ const LinkDetailsPage = () => {
         </Card>
 
         <Card className="flex flex-col items-center justify-center gap-6 p-8 text-center">
-          <div className="overflow-hidden rounded-xl border bg-background p-3">
+          <div className="overflow-hidden rounded-md border border-border/70 bg-background p-3">
             <img src={link?.qr} alt="QR Code" className="h-32 w-32 object-contain" />
           </div>
           <Button
             variant="outline"
-            className="w-full text-xs font-bold"
+            className="w-full"
             disabled={!link}
             loading={downloading}
             onClick={() => runDownload(link)}
@@ -165,7 +165,7 @@ const LinkDetailsPage = () => {
       </div>
 
       <section className="space-y-6">
-        <h2 className="heading-section">Engagement Overviews</h2>
+        <h2 className="heading-sm">Engagement Overviews</h2>
 
         {clicks?.length > 0 ? (
           <Card>
