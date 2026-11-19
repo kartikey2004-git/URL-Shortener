@@ -78,7 +78,7 @@ npm install
 .env
 
 VITE_SUPABASE_URL=your-supabase-url
-VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_SUPABASE_KEY=your-anon-key
 ```
 
 ### Run locally
@@ -87,68 +87,38 @@ npm run dev
 ```
 
 
-🗂️ Folder Structure
-```php
+## Folder Structure
 
-SHORTENX
-├── .git
-├── dist
-├── node_modules
-├── public
-├── src
-│   ├── assets
-│   │   └── react.svg
-│   ├── components
-│   │   └── ui
-│   │       ├── Create-link.jsx
-│   │       ├── Device-stats.jsx
-│   │       ├── Error.jsx
-│   │       ├── Header.jsx
-│   │       ├── Link-card.jsx
-│   │       ├── Location-stats.jsx
-│   │       ├── Login.jsx
-│   │       ├── Require-auth.jsx
-│   │       └── SignUp.jsx
-│   ├── db
-│   │   ├── apiAuth.js
-│   │   ├── apiClicks.js
-│   │   ├── apiUrls.js
-│   │   └── supabase.js
-│   ├── hooks
-│   │   └── Use-fetch.jsx
-│   ├── layouts
-│   │   └── App.layout.jsx
-│   ├── lib
-│   │   └── utils.js
-│   ├── pages
-│   │   ├── Auth.jsx
-│   │   ├── Dashboard.jsx
-│   │   ├── LandingPage.jsx
-│   │   ├── Link.jsx
-│   │   └── RedirectLinkPage.jsx
-│   ├── App.css
-│   ├── App.jsx
-│   ├── Context.jsx
-│   ├── index.css
-│   ├── main.jsx
-├──.env
-├──.gitignore
-├──.htaccess
-├──component.json
-├──eslint.config.js
-├──index.html
-├──jsconfig.json
-├──package-lock.json
-├──package.json
-├──postcss.config.js
-├──README.md
-├──tailwind.config.js
-├──vercel.json
-├──vite.config.js
+See [docs/architecture.md](docs/architecture.md) for layers and dependency rules, and
+[docs/design-system.md](docs/design-system.md) for tokens and components.
 
+```
+src/
+  app/          providers + router
+  pages/        one page per route
+  features/     auth, links, analytics, theme
+  components/   ui (primitives), shared, layout
+  hooks/  lib/  styles/
 ```
 
 ---
 
 ## License: This project is open-source. Feel free to explore, use, and contribute!
 
+
+## Testing
+
+`npm test` runs the Vitest suite (unit tests, plus migration/API tests against an in-process Postgres via PGlite).
+
+## Database migration (required before deploying)
+
+Apply `supabase/migrations/20261119000000_urls_slug_integrity.sql` to the Supabase project
+(run the pre-flight duplicate queries at the top of the file first). It adds UNIQUE constraints on
+`urls.short_url` / `urls.custom_url` and a `NOT VALID` format check for new custom slugs.
+Short codes are 4 chars of `[a-z0-9]` (~1.68M codes); to lengthen them, change `SHORT_CODE_LENGTH`
+in `src/lib/constants.js` - existing codes keep resolving, no data migration needed.
+
+## QR download requirement
+
+QR images are downloaded by `fetch`ing them from Supabase Storage, so the `qrs` bucket must be
+public and answer with CORS headers (`Access-Control-Allow-Origin`) for the app's origin.
